@@ -1,1 +1,1 @@
-<img src='./src/assets/Captura de Tela 2024-04-17 às 02.16.43.png'/>
+<img src='./src/assets/Captura de Tela 2024-04-17 às 11.20.23.png'/>
