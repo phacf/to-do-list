@@ -27,11 +27,24 @@ export function App() {
 
   const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setContent(event.target.value)
+  event.target.setCustomValidity('')
+
   }
 
   const handleDelete = (id: string) => {
     setTask((state) => (state.filter(task => task.id != id)))
   }
+
+  const handleCompleteTask = (id: string) => {
+    setTask(taskList.map(task => {
+      if (task.id === id) task.complete = !task.complete
+      return task
+    }))
+  }
+
+const handleNewTaskInvalid = (event: React.ChangeEvent<HTMLInputElement>) =>{
+  event.target.setCustomValidity('campo obrigatorio')
+}
 
   return (
     <div className='h-full w-full bg-gray600'>
@@ -40,8 +53,8 @@ export function App() {
       </header>
       <main className=''>
         <form onSubmit={handleCrateTask} className='flex w-[48%] mx-auto gap-1 -mt-7'>
-          <input value={taskContent} onChange={handleChangeInput} className='text-large rounded-[8px] text-gray100 placeholder:text-gray300 bg-gray500 p-4 w-full focus:outline-none focus:border-purple200 focus:ring-1 focus:ring-purple200' placeholder='Adicione uma nova tarefa' />
-          <button type='submit' className='flex text-medium p-4 bg-blue200 text-gray100 hover:bg-blue100 gap-2 font-bold rounded-[8px] items-center justify-center'>Criar <PlusCircle weight='bold' /></button>
+          <input onInvalid={handleNewTaskInvalid} required value={taskContent} onChange={handleChangeInput} className='text-large rounded-[8px] text-gray100 placeholder:text-gray300 bg-gray500 p-4 w-full focus:outline-none focus:border-purple200 focus:ring-1 focus:ring-purple200' placeholder='Adicione uma nova tarefa' />
+          <button title='Criar nova task' type='submit' className='flex text-medium p-4 bg-blue200 text-gray100 hover:bg-blue100 gap-2 font-bold rounded-[8px] items-center justify-center'>Criar <PlusCircle weight='bold' /></button>
         </form>
 
         <div className='mt-16 w-[48%] flex flex-col gap-3 mx-auto'>
@@ -66,6 +79,7 @@ export function App() {
               key={task.id}
               task={task}
               onDelete={() => handleDelete(task.id)}
+              onCheck={()=> handleCompleteTask(task.id)}
             />
           ))}
         </div>
